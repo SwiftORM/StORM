@@ -14,7 +14,7 @@ fileprivate enum idTypeList {
 	case UUID
 }
 
-public class PerfectRow {
+open class PerfectRow {
 
 	// id can be uuid, int or string...
 	var idInt				= 0

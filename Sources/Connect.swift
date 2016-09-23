@@ -8,31 +8,31 @@
 
 import Foundation
 
-public class Connect {
-	var datasource					= DataSource()
-	var credentials					= DataSourceCredentials()
+open class Connect {
+	open var datasource					= DataSource()
+	open var credentials					= DataSourceCredentials()
 
-	var database:		String		= ""
-	var table:			String		= ""
+	open var database:		String		= ""
+	open var table:			String		= ""
 
 	
-	init() {}
+//	public init() {}
+//
+//	public init(_	ds: DataSource,
+//			host: String,
+//			username: String = "",
+//			password: String = "",
+//			port: Int = 0) {
+//		self.datasource = ds
+//		self.credentials = DataSourceCredentials(host: host, port: port, user: username, pass: password)
+//	}
 
-	init(_	ds: DataSource,
-			host: String,
-			username: String = "",
-			password: String = "",
-			port: Int = 0) {
-		self.datasource = ds
-		self.credentials = DataSourceCredentials(host: host, port: port, user: username, pass: password)
-	}
-
-	public func select(){}
-	public func create(){}
-	public func update(){}
-	public func upsert(){}
-
-	public func delete(){}
+//	open func select(){}
+//	open func create(){}
+//	open func update(){}
+//	open func upsert(){}
+//
+//	open func delete(){}
 
 
 

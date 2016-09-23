@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class PerfectResultSet {
+open class PerfectResultSet {
 	var rows: [PerfectRow] = [PerfectRow]()
 	var cursorData: PerfectCRUDCursor = PerfectCRUDCursor()
 }
