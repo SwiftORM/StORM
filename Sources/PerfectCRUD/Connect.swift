@@ -8,7 +8,17 @@
 
 import Foundation
 
+protocol CRUDProtocol {
+	func select() -> String
+	func create() -> String
+	func update() -> String
+	func upsert() -> String
+	func delete() -> String
+
+}
+
 open class Connect {
+
 	open var datasource					= DataSource()
 	open var credentials				= DataSourceCredentials()
 
@@ -27,12 +37,23 @@ open class Connect {
 		self.credentials = DataSourceCredentials(host: host, port: port, user: username, pass: password)
 	}
 
-//	open func select(){}
-//	open func create(){}
-//	open func update(){}
-//	open func upsert(){}
 //
-//	open func delete(){}
+//	public func select() -> String {
+//		return "selected"
+//	}
+//	public func create() -> String {
+//		return "created"
+//	}
+//	public func update() -> String {
+//		return "updated"
+//	}
+//	public func upsert() -> String {
+//		return "upserted"
+//	}
+//	public func delete() -> String {
+//		return "deleted"
+//	}
+
 
 
 
