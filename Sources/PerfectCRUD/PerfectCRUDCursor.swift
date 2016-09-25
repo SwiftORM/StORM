@@ -8,8 +8,22 @@
 
 import Foundation
 
-struct PerfectCRUDCursor {
-	var offset: Int = 0
-	var limit: Int = 0
+public struct PerfectCRUDCursor {
+	public var limit:			Int = 50
+	public var offset:			Int = 0
+	public var totalRecords:	Int = 0
+
+	public init() {}
+
+	public init(limit: Int,  offset: Int) {
+		self.limit	= limit
+		self.offset = offset
+	}
+	public init(limit: Int,  offset: Int, totalRecords: Int) {
+		self.limit			= limit
+		self.offset			= offset
+		self.totalRecords	= totalRecords
+	}
+
 }
 
