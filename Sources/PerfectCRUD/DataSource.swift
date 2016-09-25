@@ -18,7 +18,7 @@ public enum DataSource {
 	case Unknown
 
 	init() {
-		self = .Postgres
+		self = .Unknown
 	}
 }
 
