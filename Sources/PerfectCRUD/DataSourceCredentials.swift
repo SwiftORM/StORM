@@ -9,10 +9,10 @@
 import Foundation
 
 public struct DataSourceCredentials {
-	var host:			String		= "localhost"
-	var port:			Int			= 0
-	var username:		String		= ""
-	var password:		String		= ""
+	public var host:			String		= "localhost"
+	public var port:			Int			= 0
+	public var username:		String		= ""
+	public var password:		String		= ""
 
 	public init() {
 		// empty
