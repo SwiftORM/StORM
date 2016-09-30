@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum DataSource {
+public enum StORMDataSource {
 	case Postgres
 	case MySQL
 	case FileMaker

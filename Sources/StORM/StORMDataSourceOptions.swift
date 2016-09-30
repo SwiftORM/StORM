@@ -10,7 +10,7 @@ import Foundation
 
 
 // add options as they are determined
-enum DataSourceOptions {
+enum StORMDataSourceOptions {
 	case SSL(Bool)
 }
 

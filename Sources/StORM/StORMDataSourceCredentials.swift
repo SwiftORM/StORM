@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct DataSourceCredentials {
+public struct StORMDataSourceCredentials {
 	public var host:			String		= "localhost"
 	public var port:			Int			= 0
 	public var username:		String		= ""

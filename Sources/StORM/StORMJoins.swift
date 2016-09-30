@@ -8,22 +8,22 @@
 
 import Foundation
 
-public struct DataSourceJoin {
+public struct StORMDataSourceJoin {
 	public var table:			String		= ""
-	public var direction:		JoinType
+	public var direction:		StORMJoinType
 	public var onCondition:		String		= ""
 
 	public init() {
 		direction = .normal
 	}
-	public init(table: String,  onCondition: String = "", direction: JoinType = .normal) {
+	public init(table: String,  onCondition: String = "", direction: StORMJoinType = .normal) {
 		self.table = table
 		self.direction = direction
 		self.onCondition = onCondition
 	}
 }
 
-public enum JoinType {
+public enum StORMJoinType {
 	case INNER
 	case OUTER
 	case LEFT

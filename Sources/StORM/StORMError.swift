@@ -10,4 +10,8 @@ public enum StORMError: String {
 	case database = "No Database Specified"
 	case error = "Error"
 	case noError = "No Error"
+
+	init(){
+		self = .noError
+	}
 }
