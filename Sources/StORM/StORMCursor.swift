@@ -1,6 +1,6 @@
 //
-//  PerfectCRUDCursor.swift
-//  PerfectCRUD
+//  StORMCursor.swift
+//  StORM
 //
 //  Created by Jonathan Guthrie on 2016-09-23.
 //
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct PerfectCRUDCursor {
+public struct StORMCursor {
 	public var limit:			Int = 50
 	public var offset:			Int = 0
 	public var totalRecords:	Int = 0

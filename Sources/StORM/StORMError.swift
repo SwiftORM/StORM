@@ -1,12 +1,12 @@
 //
-//  PerfectCRUDErrors.swift
-//  PerfectPostgresCRUD
+//  StORMErrors.swift
+//  StORM
 //
 //  Created by Jonathan Guthrie on 2016-09-26.
 //
 //
 
-public enum PerfectCRUDError: String {
+public enum StORMError: String {
 	case database = "No Database Specified"
 	case error = "Error"
 	case noError = "No Error"

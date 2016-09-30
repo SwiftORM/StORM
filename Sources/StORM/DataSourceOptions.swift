@@ -1,6 +1,6 @@
 //
 //  DataSourceOptions.swift
-//  PerfectORM
+//  StORM
 //
 //  Created by Jonathan Guthrie on 2016-09-23.
 //

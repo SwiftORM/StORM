@@ -1,6 +1,6 @@
 //
-//  Rows.swift
-//  PerfectCRUD
+//  StORMRow.swift
+//  StORM
 //
 //  Created by Jonathan Guthrie on 2016-09-23.
 //
@@ -14,7 +14,7 @@ fileprivate enum idTypeList {
 	case UUID
 }
 
-open class PerfectRow {
+open class StORMRow {
 
 	// id can be uuid, int or string...
 	var idInt				= 0

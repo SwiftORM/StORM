@@ -1,6 +1,6 @@
 //
 //  Connect.swift
-//  PerfectORM
+//  StORM
 //
 //  Created by Jonathan Guthrie on 2016-09-23.
 //
@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol CRUDProtocol {
+protocol StORMProtocol {
 	func select() -> String
 	func create() -> String
 	func update() -> String
@@ -32,7 +32,7 @@ open class Connect {
 	public var statement:	String				= ""
 
 	/// Last executed statement
-	public var resultCode:	PerfectCRUDError	= .noError
+	public var resultCode:	StORMError	= .noError
 
 	public init() {}
 
