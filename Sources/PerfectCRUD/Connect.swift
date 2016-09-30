@@ -19,23 +19,32 @@ protocol CRUDProtocol {
 
 open class Connect {
 
-	open var datasource					= DataSource()
-	open var credentials				= DataSourceCredentials()
+	open var datasource							= DataSource()
+	open var credentials						= DataSourceCredentials()
 
-	open var database:		String		= ""
-	open var table:			String		= ""
+	open var database:		String				= ""
 
-	
+	/// Manually set table
+	// Convenience shortcut var
+	open var table:			String				= ""
+
+	/// Last executed statement
+	public var statement:	String				= ""
+
+	/// Last executed statement
+	public var resultCode:	PerfectCRUDError	= .noError
+
 	public init() {}
 
 	public init(_	ds: DataSource,
-			host: String,
-			username: String = "",
-			password: String = "",
-			port: Int = 0) {
+	            host: String,
+	            username: String = "",
+	            password: String = "",
+	            port: Int = 0) {
 		self.datasource = ds
 		self.credentials = DataSourceCredentials(host: host, port: port, user: username, pass: password)
 	}
+
 
 //
 //	public func select() -> String {

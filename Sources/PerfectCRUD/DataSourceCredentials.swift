@@ -14,9 +14,8 @@ public struct DataSourceCredentials {
 	public var username:		String		= ""
 	public var password:		String		= ""
 
-	public init() {
-		// empty
-	}
+	public init() {}
+	
 	public init(host: String, port: Int = 0, user: String = "", pass: String = "") {
 		self.host = host
 		self.port = port

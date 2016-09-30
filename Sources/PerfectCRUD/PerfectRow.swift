@@ -22,6 +22,10 @@ open class PerfectRow {
 	var idString			= ""
 	fileprivate var idType: idTypeList		= .Int
 
+	public var data				= Dictionary<String, Any>()
+
+	public init() {}
+
 	public func id(_ val: Int) {
 		idType		= .Int
 		idInt		= val
@@ -46,7 +50,7 @@ open class PerfectRow {
 		}
 	}
 
-	public func parse(_ rows: [[String: Any]]) {
-		// parse rows
-	}
+//	public func parse(_ rows: [[String: Any]]) {
+//		// parse rows
+//	}
 }
