@@ -6,10 +6,10 @@
 //
 //
 
-public enum StORMError: String {
-	case database = "No Database Specified"
-	case error = "Error"
-	case noError = "No Error"
+public enum StORMError: Error {
+	case database			// "No Database Specified"
+	case error(String)		// "Error"
+	case noError			// "No Error"
 
 	init(){
 		self = .noError
