@@ -8,4 +8,5 @@
 
 public protocol StORMProtocol {
 	func to(_ this: StORMRow)
+	func makeRow()
 }
