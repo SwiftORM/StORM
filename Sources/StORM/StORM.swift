@@ -7,10 +7,14 @@
 //
 
 open class StORM {
-	//	open var connection		= StORMConnect()     // covariant?
-	//	open var cursor			= StORMCursor()
+
 	open var results		= StORMResultSet()
+
+	// connection error status
 	open var error			= StORMError()
+
+	// should contain last error message as string.
+	open var errorMsg		= ""
 
 	public init() {}
 
