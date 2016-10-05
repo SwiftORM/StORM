@@ -6,4 +6,6 @@
 //
 //
 
-import Foundation
+public protocol StORMProtocol {
+	func to(_ this: StORMRow)
+}
