@@ -16,15 +16,11 @@ open class StORMConnect {
 
 	open var database:		String				= ""
 
-	/// Manually set table
-	// Convenience shortcut var
-	open var table:			String				= ""
-
 	/// Last executed statement
 	public var statement:	String				= ""
 
 	/// Last executed statement
-	public var resultCode:	StORMError	= .noError
+	open var resultCode:	StORMError	= .noError
 
 	public init() {}
 
