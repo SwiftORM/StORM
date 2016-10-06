@@ -16,4 +16,23 @@ public enum StORMError: Error {
 	init(){
 		self = .noError
 	}
+
+	public func string() -> String {
+		switch self {
+		case .database:
+			return "No Database Specified"
+
+		case .noRecordFound:
+			return "No Record Found"
+
+		case .noError:
+			return "No Error"
+			
+		case .notImplemented:
+			return "Not Implemented"
+
+		default:
+			return "Error"
+		}
+	}
 }
