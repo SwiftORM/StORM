@@ -11,6 +11,7 @@ public enum StORMError: Error {
 	case error(String)		// "Error"
 	case noError			// "No Error"
 	case notImplemented		// "Not Implemented"
+	case noRecordFound		// no record
 
 	init(){
 		self = .noError
