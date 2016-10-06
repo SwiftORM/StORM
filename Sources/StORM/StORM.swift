@@ -19,19 +19,35 @@ open class StORM {
 	public init() {}
 
 	// introspection of structure
-	public func cols() -> [String:Any] {
-		var c = [String:Any]()
-
+	public func cols(_ offset: Int = 0) -> [(String, Any)] {
+		var c = [(String, Any)]()
+		var count = 0
 		let mirror = Mirror(reflecting: self)
 		for child in mirror.children {
 			guard let key = child.label else {
 				continue
 			}
-			c[key] = type(of:child.value)
+			if count >= offset {
+				c.append((key, type(of:child.value)))
+				//c[key] = type(of:child.value)
+			}
+			count += 1
 		}
 		return c
 	}
 
+	public func asData(_ offset: Int = 0) -> [(String, Any)] {
+		var c = [(String, Any)]()
+		var count = 0
+		let mirror = Mirror(reflecting: self)
+		for case let (label?, value) in mirror.children {
+			if count >= offset {
+				c.append((label, value))
+			}
+			count += 1
+		}
+		return c
+	}
 
 	public func firstAsKey() -> (String, Any) {
 		let mirror = Mirror(reflecting: self)
@@ -39,6 +55,28 @@ open class StORM {
 			return (label, value)
 		}
 		return ("id", "unknown")
+	}
+
+	public func keyIsEmpty() -> Bool {
+		let (_, val) = firstAsKey()
+		if val is Int {
+			if val as! Int == 0 {
+				return true
+			} else {
+				return false
+			}
+		} else {
+			if (val as! String).isEmpty {
+				return true
+			} else {
+				return false
+			}
+		}
+	}
+
+	open func create() throws {
+		// is overridden in an extension
+		throw StORMError.notImplemented
 	}
 
 }

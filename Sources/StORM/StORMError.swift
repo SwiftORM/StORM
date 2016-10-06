@@ -10,6 +10,7 @@ public enum StORMError: Error {
 	case database			// "No Database Specified"
 	case error(String)		// "Error"
 	case noError			// "No Error"
+	case notImplemented		// "Not Implemented"
 
 	init(){
 		self = .noError
