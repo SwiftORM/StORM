@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 public struct StORMDataSourceCredentials {
 	public var host:			String		= "localhost"
 	public var port:			Int			= 0

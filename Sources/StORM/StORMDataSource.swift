@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 public enum StORMDataSource {
 	case Postgres
 	case MySQL

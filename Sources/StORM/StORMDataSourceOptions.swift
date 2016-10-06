@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 
 // add options as they are determined
 enum StORMDataSourceOptions {

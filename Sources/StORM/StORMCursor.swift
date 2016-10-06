@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 public struct StORMCursor {
 	public var limit:			Int = 50
 	public var offset:			Int = 0

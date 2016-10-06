@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 
 open class StORMConnect {
 
@@ -32,9 +30,5 @@ open class StORMConnect {
 		self.datasource = ds
 		self.credentials = StORMDataSourceCredentials(host: host, port: port, user: username, pass: password)
 	}
-
-
-
-
 }
 

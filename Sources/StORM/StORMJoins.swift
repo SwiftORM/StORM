@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 public struct StORMDataSourceJoin {
 	public var table:			String		= ""
 	public var direction:		StORMJoinType

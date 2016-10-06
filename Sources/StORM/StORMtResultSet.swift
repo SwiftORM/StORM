@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 open class StORMResultSet {
 	public var rows: [StORMRow] = [StORMRow]()
 	public var cursorData: StORMCursor = StORMCursor()
