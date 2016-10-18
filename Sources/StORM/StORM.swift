@@ -27,7 +27,7 @@ open class StORM {
 			guard let key = child.label else {
 				continue
 			}
-			if count >= offset {
+			if count >= offset && !key.hasPrefix("internal_") {
 				c.append((key, type(of:child.value)))
 				//c[key] = type(of:child.value)
 			}
@@ -41,7 +41,7 @@ open class StORM {
 		var count = 0
 		let mirror = Mirror(reflecting: self)
 		for case let (label?, value) in mirror.children {
-			if count >= offset {
+			if count >= offset && !label.hasPrefix("internal_") {
 				c.append((label, value))
 			}
 			count += 1
