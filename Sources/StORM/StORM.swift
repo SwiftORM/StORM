@@ -6,6 +6,8 @@
 //
 //
 
+public var StORMdebug = false
+
 open class StORM {
 
 	open var results		= StORMResultSet()
