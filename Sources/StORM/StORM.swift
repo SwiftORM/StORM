@@ -29,7 +29,7 @@ open class StORM {
 			guard let key = child.label else {
 				continue
 			}
-			if count >= offset && !key.hasPrefix("internal_") {
+			if count >= offset && !key.hasPrefix("internal_") && !key.hasPrefix("_") {
 				c.append((key, type(of:child.value)))
 				//c[key] = type(of:child.value)
 			}
@@ -43,11 +43,28 @@ open class StORM {
 		var count = 0
 		let mirror = Mirror(reflecting: self)
 		for case let (label?, value) in mirror.children {
-			if count >= offset && !label.hasPrefix("internal_") {
+			if count >= offset && !label.hasPrefix("internal_") && !label.hasPrefix("_") {
 				if value is [String:Any] {
 					c.append((label, try! (value as! [String:Any]).jsonEncodedString()))
 				} else {
 					c.append((label, value))
+				}
+			}
+			count += 1
+		}
+		return c
+	}
+
+	public func asDataDict(_ offset: Int = 0) -> [String: Any] {
+		var c = [String: Any]()
+		var count = 0
+		let mirror = Mirror(reflecting: self)
+		for case let (label?, value) in mirror.children {
+			if count >= offset && !label.hasPrefix("internal_") && !label.hasPrefix("_") {
+				if value is [String:Any] {
+					c[label] = try! (value as! [String:Any]).jsonEncodedString()
+				} else {
+					c[label] = value
 				}
 			}
 			count += 1
