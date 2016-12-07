@@ -6,6 +6,8 @@
 //
 //
 
+
+/// Defines possible datasource values
 public enum StORMDataSource {
 	case Postgres
 	case MySQL
@@ -13,6 +15,7 @@ public enum StORMDataSource {
 	case SQLite
 	case MongoDB
 	case Redis
+	case CouchDB
 	case Unknown
 
 	init() {

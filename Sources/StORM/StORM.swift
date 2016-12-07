@@ -6,21 +6,29 @@
 //
 //
 
+
+/// Variable defining the global debug state for all classes inheriting from the StORM superclass.
+/// When true, certain methods will generate a debug message under certain conditions.
 public var StORMdebug = false
 
+
+/// Base StORM superclass from which all Database-Connector StORM classes inherit.
+/// Provides base functionality and rules.
 open class StORM {
 
+	/// Results container of type StORMResultSet.
 	open var results		= StORMResultSet()
 
-	// connection error status
+	/// connection error status of type StORMError.
 	open var error			= StORMError()
 
-	// should contain last error message as string.
+	/// Contain last error message as string.
 	open var errorMsg		= ""
 
+	/// Base empty init function.
 	public init() {}
 
-	// introspection of structure
+	/// Provides structure introspection to client methods.
 	public func cols(_ offset: Int = 0) -> [(String, Any)] {
 		var c = [(String, Any)]()
 		var count = 0
@@ -38,6 +46,8 @@ open class StORM {
 		return c
 	}
 
+	/// Returns a [(String,Any)] object representation of the current object.
+	/// If any object property begins with an underscore, or with "internal_" it is omitted from the response.
 	public func asData(_ offset: Int = 0) -> [(String, Any)] {
 		var c = [(String, Any)]()
 		var count = 0
@@ -55,6 +65,8 @@ open class StORM {
 		return c
 	}
 
+	/// Returns a [String:Any] object representation of the current object.
+	/// If any object property begins with an underscore, or with "internal_" it is omitted from the response.
 	public func asDataDict(_ offset: Int = 0) -> [String: Any] {
 		var c = [String: Any]()
 		var count = 0
@@ -72,6 +84,8 @@ open class StORM {
 		return c
 	}
 
+	/// Returns a tuple of name & value of the object's key
+	/// The key is determined to be it's first property, which is assumed to be the object key.
 	public func firstAsKey() -> (String, Any) {
 		let mirror = Mirror(reflecting: self)
 		for case let (label?, value) in mirror.children {
@@ -80,6 +94,7 @@ open class StORM {
 		return ("id", "unknown")
 	}
 
+	/// Returns a boolean that is true if the first property in the class contains a value.
 	public func keyIsEmpty() -> Bool {
 		let (_, val) = firstAsKey()
 		if val is Int {
@@ -97,8 +112,9 @@ open class StORM {
 		}
 	}
 
+	/// The create method is designed to be overridden
+	/// If not set in the chile class it will return an error of the enum value .notImplemented
 	open func create() throws {
-		// is overridden in an extension
 		throw StORMError.notImplemented
 	}
 

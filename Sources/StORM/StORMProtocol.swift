@@ -6,6 +6,7 @@
 //
 //
 
+/// Protocol wich enforces the "to" and "makeRow" methods
 public protocol StORMProtocol {
 	func to(_ this: StORMRow)
 	func makeRow()

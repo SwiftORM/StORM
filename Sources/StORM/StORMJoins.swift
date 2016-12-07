@@ -6,6 +6,8 @@
 //
 //
 
+
+/// Join Support is under development.
 public struct StORMDataSourceJoin {
 	public var table:			String		= ""
 	public var direction:		StORMJoinType

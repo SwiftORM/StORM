@@ -6,23 +6,29 @@
 //
 //
 
-
+/// The base StORMConnect class.
+/// Defines a generic structure containing the client daabase's connection properties.
 open class StORMConnect {
 
+	/// Contains the datasource enum value.
 	open var datasource							= StORMDataSource()
+
+	/// Container for StORMDataSourceCredentials object.
 	open var credentials						= StORMDataSourceCredentials()
 
+	/// The current database.
 	open var database:		String				= ""
 
-	/// Last executed statement
+	/// Last executed statement.
 	public var statement:	String				= ""
 
-	/// Last executed statement
+	/// Last executed statement.
 	open var resultCode:	StORMError	= .noError
 
 	public init() {}
 
-	public init(_	ds: StORMDataSource,
+	/// Sets the datasource and credentials via init.
+	public init(_ ds: StORMDataSource,
 	            host: String,
 	            username: String = "",
 	            password: String = "",

@@ -6,17 +6,29 @@
 //
 //
 
+/// Foundation error enum container.
 public enum StORMError: Error {
-	case database			// "No Database Specified"
-	case error(String)		// "Error"
-	case noError			// "No Error"
-	case notImplemented		// "Not Implemented"
-	case noRecordFound		// no record
+	/// "No Database Specified"
+	case database
 
+	/// Error with detail message.
+	case error(String)
+
+	/// No error generated
+	case noError
+
+	/// Not Implemented
+	case notImplemented
+
+	/// No record found error (if rrequired)
+	case noRecordFound
+
+	/// Default value when created is .noError
 	init(){
 		self = .noError
 	}
 
+	/// String representation of the error enum value.
 	public func string() -> String {
 		switch self {
 		case .database:
