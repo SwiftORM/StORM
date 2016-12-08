@@ -8,7 +8,7 @@
 
 
 /// Datasource options - add options as they are required.
-open enum StORMDataSourceOptions {
+public enum StORMDataSourceOptions {
 	case SSL(Bool)
 }
 
