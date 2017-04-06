@@ -4,7 +4,7 @@
 //
 //  Created by Jonathan Guthrie on 2016-09-30.
 //
-//
+//  April 6, 2017: 1.0.3, add support for storing [String] as comma delimited strings
 
 
 /// Variable defining the global debug state for all classes inheriting from the StORM superclass.
@@ -56,6 +56,8 @@ open class StORM {
 			if count >= offset && !label.hasPrefix("internal_") && !label.hasPrefix("_") {
 				if value is [String:Any] {
 					c.append((label, try! (value as! [String:Any]).jsonEncodedString()))
+				} else if value is [String] {
+					c.append((label, (value as! [String]).joined(separator: ",")))
 				} else {
 					c.append((label, value))
 				}
@@ -75,6 +77,8 @@ open class StORM {
 			if count >= offset && !label.hasPrefix("internal_") && !label.hasPrefix("_") {
 				if value is [String:Any] {
 					c[label] = try! (value as! [String:Any]).jsonEncodedString()
+				} else if value is [String] {
+					c[label] = (value as! [String]).joined(separator: ",")
 				} else {
 					c[label] = value
 				}
@@ -117,6 +121,6 @@ open class StORM {
 	open func create() throws {
 		throw StORMError.notImplemented
 	}
-
+	
 }
 
