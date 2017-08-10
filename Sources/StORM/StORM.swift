@@ -45,7 +45,9 @@ open class StORM {
 		}
 		return c
 	}
-
+	
+	open func modifyValue(_ v: Any, forKey k: String) -> Any { return v }
+	
 	/// Returns a [(String,Any)] object representation of the current object.
 	/// If any object property begins with an underscore, or with "internal_" it is omitted from the response.
 	public func asData(_ offset: Int = 0) -> [(String, Any)] {
@@ -55,11 +57,11 @@ open class StORM {
 		for case let (label?, value) in mirror.children {
 			if count >= offset && !label.hasPrefix("internal_") && !label.hasPrefix("_") {
 				if value is [String:Any] {
-					c.append((label, try! (value as! [String:Any]).jsonEncodedString()))
+					c.append((label, modifyValue(try! (value as! [String:Any]).jsonEncodedString(), forKey: label)))
 				} else if value is [String] {
-					c.append((label, (value as! [String]).joined(separator: ",")))
+					c.append((label, modifyValue((value as! [String]).joined(separator: ","), forKey: label)))
 				} else {
-					c.append((label, value))
+					c.append((label, modifyValue(value, forKey: label)))
 				}
 			}
 			count += 1
@@ -76,11 +78,11 @@ open class StORM {
 		for case let (label?, value) in mirror.children {
 			if count >= offset && !label.hasPrefix("internal_") && !label.hasPrefix("_") {
 				if value is [String:Any] {
-					c[label] = try! (value as! [String:Any]).jsonEncodedString()
+					c[label] = modifyValue(try! (value as! [String:Any]).jsonEncodedString(), forKey: label)
 				} else if value is [String] {
-					c[label] = (value as! [String]).joined(separator: ",")
+					c[label] = modifyValue((value as! [String]).joined(separator: ","), forKey: label)
 				} else {
-					c[label] = value
+					c[label] = modifyValue(value, forKey: label)
 				}
 			}
 			count += 1
@@ -93,7 +95,7 @@ open class StORM {
 	public func firstAsKey() -> (String, Any) {
 		let mirror = Mirror(reflecting: self)
 		for case let (label?, value) in mirror.children {
-			return (label, value)
+			return (label, modifyValue(value, forKey: label))
 		}
 		return ("id", "unknown")
 	}
