@@ -70,3 +70,4 @@ docs/
 buildlinux
 /.packages_lin
 /.build_lin
+Package.pins
