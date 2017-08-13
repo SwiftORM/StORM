@@ -117,7 +117,7 @@ open class StORM {
         case is String.Type, is String?.Type:
             return (val as! String).isEmpty
         default:
-            print("[StORM] WARNING: Switched unexpected type for PRIMARY KEY in function: \(#function). TYPE: \(type)")
+            print("[StORM] WARNING: Unexpected type for PRIMARY KEY in function: \(#function). TYPE: \(type)")
             return false
         }
         
