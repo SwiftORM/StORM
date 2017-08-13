@@ -103,19 +103,37 @@ open class StORM {
 	/// Returns a boolean that is true if the first property in the class contains a value.
 	public func keyIsEmpty() -> Bool {
 		let (_, val) = firstAsKey()
-		if val is Int {
-			if val as! Int == 0 {
-				return true
-			} else {
-				return false
-			}
-		} else {
-			if (val as! String).isEmpty {
-				return true
-			} else {
-				return false
-			}
-		}
+        
+        // Grab the type of value:
+        let type = type(of: val)
+        // Check if we are nil, we would then of course have an empty primary key.
+        guard String(describing: val) != "nil" else {
+            return true
+        }
+        
+        switch type {
+        case is Int.Type, is Int?.Type:
+            return (val as! Int == 0)
+        case is String.Type, is String?.Type:
+            return (val as! String).isEmpty
+        default:
+            print("[StORM] WARNING: Switched unexpected type for PRIMARY KEY in function: \(#function). TYPE: \(type)")
+            return false
+        }
+        
+//		if val is Int {
+//			if val as! Int == 0 {
+//				return true
+//			} else {
+//				return false
+//			}
+//		} else {
+//			if (val as! String).isEmpty {
+//				return true
+//			} else {
+//				return false
+//			}
+//		}
 	}
 
 	/// The create method is designed to be overridden

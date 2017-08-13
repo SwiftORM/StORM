@@ -1,18 +1,10 @@
-//
-//  Package.swift
-//  StORM
-//
-//  Created by Jonathan Guthrie on 2016-09-23.
-//	Copyright (C) 2016 Jonathan Guthrie.
-//
-
+// Generated automatically by Perfect Assistant Application
+// Date: 2017-08-13 18:42:55 +0000
 import PackageDescription
-
 let package = Package(
 	name: "StORM",
 	targets: [],
 	dependencies: [
-		.Package(url: "https://github.com/PerfectlySoft/PerfectLib.git", majorVersion: 2)
-	],
-	exclude: []
+		.Package(url: "https://github.com/PerfectlySoft/PerfectLib.git", majorVersion: 2),
+	]
 )
