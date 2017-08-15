@@ -39,8 +39,12 @@ public class StORMMirrorData {
             }
             count += 1
         }
-        if let superMirror = mirror.superclassMirror, StORMIgnoreClassString.characters.count > 0 {
-            c.append(contentsOf: mirrorData(mirror: superMirror))
+        print(StORMIgnoreClassString)
+        if let superMirror = mirror.superclassMirror {
+            if StORMIgnoreClassString.characters.count > 0 {
+                c.append(contentsOf: mirrorData(mirror: superMirror))
+            }
+            
         }
         return c
     }
@@ -63,6 +67,6 @@ public class StORMMirrorData {
 }
 
 public struct StORMMirrorDataChild {
-    var label:String
-    var value:Any
+   public var label:String
+   public var value:Any
 }
