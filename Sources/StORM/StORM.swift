@@ -43,6 +43,9 @@ open class StORM {
         for child in mirrorData.childs {
             c.append((child.label, type(of: child.value)))
         }
+        if let primary = mirrorData.primary {
+            c.append((primary.label,primary.value))
+        }
 		return c
 	}
     
