@@ -111,29 +111,17 @@ open class StORM {
             return true
         }
         
+        // For now we will be expecting String & Integer key types:
         switch type {
         case is Int.Type, is Int?.Type:
             return (val as! Int == 0)
         case is String.Type, is String?.Type:
             return (val as! String).isEmpty
         default:
-            print("[StORM] WARNING: Unexpected type for PRIMARY KEY in function: \(#function). TYPE: \(type)")
+            print("[StORM] WARNING: [\(#function)] Unexpected \(type) for PRIMARY KEY.")
             return false
         }
         
-//		if val is Int {
-//			if val as! Int == 0 {
-//				return true
-//			} else {
-//				return false
-//			}
-//		} else {
-//			if (val as! String).isEmpty {
-//				return true
-//			} else {
-//				return false
-//			}
-//		}
 	}
 
 	/// The create method is designed to be overridden
