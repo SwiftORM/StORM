@@ -39,7 +39,6 @@ public class StORMMirrorData {
             }
             count += 1
         }
-        print(StORMIgnoreClassString)
         if let superMirror = mirror.superclassMirror {
             if StORMIgnoreClassString.characters.count > 0 {
                 c.append(contentsOf: mirrorData(mirror: superMirror))
