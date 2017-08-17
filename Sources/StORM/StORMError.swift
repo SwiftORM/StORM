@@ -17,6 +17,9 @@ public enum StORMError: Error {
 	/// No error generated
 	case noError
 
+	/// Connection Error
+	case connectionError
+
 	/// Not Implemented
 	case notImplemented
 
@@ -40,6 +43,9 @@ public enum StORMError: Error {
 		case .noError:
 			return "No Error"
 			
+		case .connectionError:
+			return "Connection Error"
+
 		case .notImplemented:
 			return "Not Implemented"
 
