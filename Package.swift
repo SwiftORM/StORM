@@ -9,7 +9,7 @@
 import PackageDescription
 
 let package = Package(
-	name: "StORM",
+	name: "StORM-R",
 	targets: [],
 	dependencies: [
 		.Package(url: "https://github.com/PerfectlySoft/PerfectLib.git", majorVersion: 2)

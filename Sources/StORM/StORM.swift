@@ -11,6 +11,10 @@
 /// When true, certain methods will generate a debug message under certain conditions.
 public var StORMdebug = false
 
+/// If you set the StORMIgnoreClassString field, you support the parent class property lookup until you find the set field class, or you only support sub class property lookups
+public var StORMIgnoreClassString:String = ""
+/// Set the suffix to the primary key and defaults to id
+public var StORMPrimarykeySuffix:String = "id"
 
 /// Base StORM superclass from which all Database-Connector StORM classes inherit.
 /// Provides base functionality and rules.
@@ -24,6 +28,9 @@ open class StORM {
 
 	/// Contain last error message as string.
 	open var errorMsg		= ""
+    
+    /// Database primary key
+    private var primary:(String,Any)?
 
 	/// Base empty init function.
 	public init() {}
@@ -31,20 +38,18 @@ open class StORM {
 	/// Provides structure introspection to client methods.
 	public func cols(_ offset: Int = 0) -> [(String, Any)] {
 		var c = [(String, Any)]()
-		var count = 0
 		let mirror = Mirror(reflecting: self)
-		for child in mirror.children {
-			guard let key = child.label else {
-				continue
-			}
-			if count >= offset && !key.hasPrefix("internal_") && !key.hasPrefix("_") {
-				c.append((key, type(of:child.value)))
-				//c[key] = type(of:child.value)
-			}
-			count += 1
-		}
+		let mirrorData = StORMMirrorData.mirror(mirror: mirror)
+        for child in mirrorData.childs {
+            c.append((child.label, type(of: child.value)))
+        }
+        if let primary = mirrorData.primary {
+            c.append((primary.label,primary.value))
+        }
 		return c
 	}
+    
+    
 	
 	open func modifyValue(_ v: Any, forKey k: String) -> Any { return v }
 	
@@ -52,20 +57,17 @@ open class StORM {
 	/// If any object property begins with an underscore, or with "internal_" it is omitted from the response.
 	public func asData(_ offset: Int = 0) -> [(String, Any)] {
 		var c = [(String, Any)]()
-		var count = 0
 		let mirror = Mirror(reflecting: self)
-		for case let (label?, value) in mirror.children {
-			if count >= offset && !label.hasPrefix("internal_") && !label.hasPrefix("_") {
-				if value is [String:Any] {
-					c.append((label, modifyValue(try! (value as! [String:Any]).jsonEncodedString(), forKey: label)))
-				} else if value is [String] {
-					c.append((label, modifyValue((value as! [String]).joined(separator: ","), forKey: label)))
-				} else {
-					c.append((label, modifyValue(value, forKey: label)))
-				}
-			}
-			count += 1
-		}
+        let mirrorData = StORMMirrorData.mirror(mirror: mirror)
+        for child in mirrorData.childs {
+            if child.value is [String:Any] {
+                c.append((child.label, modifyValue(try! (child.value as! [String:Any]).jsonEncodedString(), forKey: child.label)))
+            } else if child.value is [String] {
+                c.append((child.label, modifyValue((child.value as! [String]).joined(separator: ","), forKey: child.label)))
+            } else {
+                c.append((child.label, modifyValue(child.value, forKey: child.label)))
+            }
+        }
 		return c
 	}
 
@@ -73,20 +75,9 @@ open class StORM {
 	/// If any object property begins with an underscore, or with "internal_" it is omitted from the response.
 	public func asDataDict(_ offset: Int = 0) -> [String: Any] {
 		var c = [String: Any]()
-		var count = 0
-		let mirror = Mirror(reflecting: self)
-		for case let (label?, value) in mirror.children {
-			if count >= offset && !label.hasPrefix("internal_") && !label.hasPrefix("_") {
-				if value is [String:Any] {
-					c[label] = modifyValue(try! (value as! [String:Any]).jsonEncodedString(), forKey: label)
-				} else if value is [String] {
-					c[label] = modifyValue((value as! [String]).joined(separator: ","), forKey: label)
-				} else {
-					c[label] = modifyValue(value, forKey: label)
-				}
-			}
-			count += 1
-		}
+        for (label,value) in asData(offset) {
+            c[label] = value
+        }
 		return c
 	}
 
@@ -94,10 +85,10 @@ open class StORM {
 	/// The key is determined to be it's first property, which is assumed to be the object key.
 	public func firstAsKey() -> (String, Any) {
 		let mirror = Mirror(reflecting: self)
-		for case let (label?, value) in mirror.children {
-			return (label, modifyValue(value, forKey: label))
-		}
-		return ("id", "unknown")
+        guard let child = StORMMirrorData.mirror(mirror: mirror).primary else {
+            return ("id", "unknown")
+        }
+		return (child.label, modifyValue(child.value, forKey: child.label))
 	}
 
 	/// Returns a boolean that is true if the first property in the class contains a value.
@@ -109,13 +100,21 @@ open class StORM {
 			} else {
 				return false
 			}
-		} else {
-			if (val as! String).isEmpty {
-				return true
-			} else {
-				return false
-			}
-		}
+        } else if val is Int32 {
+            if val as! Int32 == 0 {
+                return true
+            } else {
+                return false
+            }
+        } else if val is String {
+            if (val as! String).isEmpty {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            return false
+        }
 	}
 
 	/// The create method is designed to be overridden
@@ -123,6 +122,6 @@ open class StORM {
 	open func create() throws {
 		throw StORMError.notImplemented
 	}
-	
+    
 }
 
