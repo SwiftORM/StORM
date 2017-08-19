@@ -86,10 +86,9 @@ extension StORM {
 		// =======================================================================================
 		// Return a JSON-type map [String:Any]
 		// =======================================================================================
-		public static func map(_ data: [String: Any], _ name: String, _ def: Int?) -> [String:Any] {
-			return data[name] as? [String:Any] ?? [String:Any]()
-		}
-
+		public static func map(_ data: [String: Any], _ name: String, _ def:  [String:Any]?) -> [String:Any]? {
+			return data[name] as? [String:Any] ?? def
+        }
 
 	}
 }
