@@ -1,6 +1,6 @@
 import XCTest
-@testable import PerfectCRUDTests
+@testable import StORMTests
 
 XCTMain([
-     testCase(PerfectCRUDTests.allTests),
+     testCase(StORMTests.allTests),
 ])
