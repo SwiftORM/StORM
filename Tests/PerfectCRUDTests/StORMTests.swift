@@ -13,7 +13,7 @@ class StORMTests: XCTestCase {
     
     func testKeyTypeIntegerNil() {
         
-        let val : Int?=nil
+        let val : Int? = nil
         
         // Grab the type of value:
         let type = type(of: val)
@@ -70,7 +70,7 @@ class StORMTests: XCTestCase {
     
     func testKeyTypeStringNil() {
         
-        let val : String?=nil
+        let val : String? = nil
         
         // Grab the type of value:
         let type = type(of: val)
