@@ -71,3 +71,4 @@ buildlinux
 /.packages_lin
 /.build_lin
 Package.pins
+Package.resolved
