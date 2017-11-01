@@ -50,7 +50,7 @@ open class StORM {
 	
 	/// Returns a [(String,Any)] object representation of the current object.
 	/// If any object property begins with an underscore, or with "internal_" it is omitted from the response.
-	public func asData(_ offset: Int = 0) -> [(String, Any)] {
+	open func asData(_ offset: Int = 0) -> [(String, Any)] {
 		var c = [(String, Any)]()
 		var count = 0
 		let mirror = Mirror(reflecting: self)
@@ -71,7 +71,7 @@ open class StORM {
 
 	/// Returns a [String:Any] object representation of the current object.
 	/// If any object property begins with an underscore, or with "internal_" it is omitted from the response.
-	public func asDataDict(_ offset: Int = 0) -> [String: Any] {
+	open func asDataDict(_ offset: Int = 0) -> [String: Any] {
 		var c = [String: Any]()
 		var count = 0
 		let mirror = Mirror(reflecting: self)
