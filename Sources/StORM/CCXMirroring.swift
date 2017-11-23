@@ -29,22 +29,24 @@ open class CCXMirror: CCXMirroring {
     private func superclassMirrors() -> [Mirror] {
         var mirrors : [Mirror] = []
         let mir = Mirror(reflecting: self)
-        
         mirrors.append(mir)
-        print(mir.children.count)
         var currentContext : Mirror?
-        for _ in 0...self.superclassCount {
+        for _ in 1...self.superclassCount {
             if currentContext.isNil {
                 currentContext = mir.superclassMirror
             } else {
                 currentContext = currentContext?.superclassMirror
             }
             if currentContext.isNotNil {
-                mirrors.append(currentContext!)
+                // we only want to bring in the variables from the superclasses that are beyond PostgresStORM:
+                switch String(describing: currentContext!.subjectType) {
+                case "CCXMirror", "StORM", "PostgresStORM":
+                    break
+                default:
+                    mirrors.append(currentContext!)
+                }
             }
-            print(currentContext?.children.count)
         }
-        print(mirrors.count)
         return mirrors
     }
     /// This returns all the children, even all the superclass mirrored children.  Use allChildren().asData() to return an array of key/values.
