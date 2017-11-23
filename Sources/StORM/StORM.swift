@@ -11,11 +11,10 @@
 /// When true, certain methods will generate a debug message under certain conditions.
 public var StORMdebug = false
 
-
 /// Base StORM superclass from which all Database-Connector StORM classes inherit.
 /// Provides base functionality and rules.
-open class StORM {
-
+open class StORM : CCXMirror {
+    
 	/// Results container of type StORMResultSet.
 	open var results		= StORMResultSet()
 
@@ -26,23 +25,26 @@ open class StORM {
 	open var errorMsg		= ""
 
 	/// Base empty init function.
-	public init() {}
+    public override init() {}
+    
+    /// primary key label (not assuming the first child is the id).
+    public static var primaryKeyLabel : String = "id"
 
 	/// Provides structure introspection to client methods.
 	public func cols(_ offset: Int = 0) -> [(String, Any)] {
+        
 		var c = [(String, Any)]()
 		var count = 0
-		let mirror = Mirror(reflecting: self)
-		for child in mirror.children {
-			guard let key = child.label else {
-				continue
-			}
-			if count >= offset && !key.hasPrefix("internal_") && !key.hasPrefix("_") {
-				c.append((key, type(of:child.value)))
-				//c[key] = type(of:child.value)
-			}
-			count += 1
-		}
+    
+        for child in self.allChildren() {
+            
+            if count >= offset && !child.key.hasPrefix("internal_") && !child.key.hasPrefix("_") {
+                c.append((child.key, type(of:child.value)))
+                
+            }
+            count += 1
+        }
+
 		return c
 	}
 	
@@ -53,15 +55,14 @@ open class StORM {
 	open func asData(_ offset: Int = 0) -> [(String, Any)] {
 		var c = [(String, Any)]()
 		var count = 0
-		let mirror = Mirror(reflecting: self)
-		for case let (label?, value) in mirror.children {
-			if count >= offset && !label.hasPrefix("internal_") && !label.hasPrefix("_") {
-				if value is [String:Any] {
-					c.append((label, modifyValue(try! (value as! [String:Any]).jsonEncodedString(), forKey: label)))
-				} else if value is [String] {
-					c.append((label, modifyValue((value as! [String]).joined(separator: ","), forKey: label)))
+		for child in self.allChildren() {
+			if count >= offset && !child.key.hasPrefix("internal_") && !child.key.hasPrefix("_") {
+				if child.value is [String:Any] {
+					c.append((child.key, modifyValue(try! (child.value as! [String:Any]).jsonEncodedString(), forKey: child.key)))
+				} else if child.value is [String] {
+					c.append((child.key, modifyValue((child.value as! [String]).joined(separator: ","), forKey: child.key)))
 				} else {
-					c.append((label, modifyValue(value, forKey: label)))
+					c.append((child.key, modifyValue(child.value, forKey: child.key)))
 				}
 			}
 			count += 1
@@ -74,15 +75,14 @@ open class StORM {
 	open func asDataDict(_ offset: Int = 0) -> [String: Any] {
 		var c = [String: Any]()
 		var count = 0
-		let mirror = Mirror(reflecting: self)
-		for case let (label?, value) in mirror.children {
-			if count >= offset && !label.hasPrefix("internal_") && !label.hasPrefix("_") {
-				if value is [String:Any] {
-					c[label] = modifyValue(try! (value as! [String:Any]).jsonEncodedString(), forKey: label)
-				} else if value is [String] {
-					c[label] = modifyValue((value as! [String]).joined(separator: ","), forKey: label)
+		for child in self.allChildren() {
+			if count >= offset && !child.key.hasPrefix("internal_") && !child.key.hasPrefix("_") {
+				if child.value is [String:Any] {
+					c[child.key] = modifyValue(try! (child.value as! [String:Any]).jsonEncodedString(), forKey: child.key)
+				} else if child.value is [String] {
+					c[child.key] = modifyValue((child.value as! [String]).joined(separator: ","), forKey: child.key)
 				} else {
-					c[label] = modifyValue(value, forKey: label)
+					c[child.key] = modifyValue(child.value, forKey: child.key)
 				}
 			}
 			count += 1
@@ -93,9 +93,10 @@ open class StORM {
 	/// Returns a tuple of name & value of the object's key
 	/// The key is determined to be it's first property, which is assumed to be the object key.
 	public func firstAsKey() -> (String, Any) {
-		let mirror = Mirror(reflecting: self)
-		for case let (label?, value) in mirror.children {
-			return (label, modifyValue(value, forKey: label))
+		for case let (label, value) in self.allChildren() {
+            if label == StORM.primaryKeyLabel {
+                return (label, modifyValue(value, forKey: label))
+            }
 		}
 		return ("id", "unknown")
 	}
