@@ -19,7 +19,8 @@ public protocol CCXMirroring {
 }
 
 open class CCXMirror: CCXMirroring {
-    private var superclassCount = 0
+    // The superclass count will include CCXMirror, StORM, & Postgres-StORM by the time we get to the subclasses we need to process.
+    private var superclassCount = 3
     public func didInitializeSuperclass() {
         self.superclassCount += 1
     }

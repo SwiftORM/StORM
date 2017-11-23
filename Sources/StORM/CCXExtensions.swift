@@ -86,30 +86,19 @@ extension Array where Iterator.Element == Mirror {
         var allChild : [String:Any] = [:]
         for mirror in self {
             mirror.children.forEach({ (child) in
-                if let label = child.label {
+                // Make sure our child has a label & the string describing the value is not nil. (Making optionals supported)
+                if let label = child.label, String(describing: child.value) != "nil" {
                     allChild[label] = child.value
                 }
             })
         }
         return allChild
     }
-//    var allChildrenData : [(String,Any)] {
-//        var allChild : [(String,Any)] = []
-//        for mirror in self {
-//            mirror.children.forEach({ (child) in
-//                if child.label.isNotNil {
-//                    allChild.append((child.label!, child.value))
-//                }
-//            })
-//        }
-//        return allChild
-//    }
 }
 
 extension Dictionary where Key == String, Value == Any {
     public func asData() -> [(String, Any)] {
         var data : [(String,Any)] = []
-        // Remove out the superclass count which is private:
         for row in self {
             data.append(row)
         }
