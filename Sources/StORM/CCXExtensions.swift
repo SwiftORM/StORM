@@ -91,6 +91,10 @@ extension Array where Iterator.Element == Mirror {
                     if let label = child.label, String(describing: child.value) != "nil" {
                         allChild[label] = child.value
                     }
+                } else {
+                    if let label = child.label {
+                        allChild[label] = child.value
+                    }
                 }
             })
         }
