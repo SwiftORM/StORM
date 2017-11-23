@@ -22,19 +22,16 @@ open class CCXMirror: CCXMirroring {
     // The superclass count will include CCXMirror, StORM, & Postgres-StORM by the time we get to the subclasses we need to process.
     private var superclassCount = 3
     public func didInitializeSuperclass() {
+        print(self.superclassCount)
         self.superclassCount += 1
     }
     /// This function goes through all the superclass mirrors.  This is dependent on the CCXMirroring protocol.
     private func superclassMirrors() -> [Mirror] {
         var mirrors : [Mirror] = []
         let mir = Mirror(reflecting: self)
-        // Make sure we aren't adding in the CCXMirror or StORM mirrors:
-        switch mir.subjectType {
-        case is CCXMirror.Type, is StORM.Type:
-            break
-        default:
-            mirrors.append(mir)
-        }
+        
+        mirrors.append(mir)
+        print(mir.children.count)
         var currentContext : Mirror?
         for _ in 0...self.superclassCount {
             if currentContext.isNil {
@@ -42,11 +39,12 @@ open class CCXMirror: CCXMirroring {
             } else {
                 currentContext = currentContext?.superclassMirror
             }
-            // Make sure we aren't adding in the CCXMirror or StORM mirrors:
             if currentContext.isNotNil {
                 mirrors.append(currentContext!)
             }
+            print(currentContext?.children.count)
         }
+        print(mirrors.count)
         return mirrors
     }
     /// This returns all the children, even all the superclass mirrored children.  Use allChildren().asData() to return an array of key/values.
