@@ -82,13 +82,15 @@ extension Bool {
 }
 //MARK: - Mirror Array:
 extension Array where Iterator.Element == Mirror {
-    var allChildren : [String:Any] {
+    func allChildren(includingNilValues: Bool=false) -> [String:Any] {
         var allChild : [String:Any] = [:]
         for mirror in self {
             mirror.children.forEach({ (child) in
                 // Make sure our child has a label & the string describing the value is not nil. (Making optionals supported)
-                if let label = child.label, String(describing: child.value) != "nil" {
-                    allChild[label] = child.value
+                if !includingNilValues {
+                    if let label = child.label, String(describing: child.value) != "nil" {
+                        allChild[label] = child.value
+                    }
                 }
             })
         }
