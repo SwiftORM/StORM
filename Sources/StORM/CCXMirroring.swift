@@ -43,13 +43,8 @@ open class CCXMirror: CCXMirroring {
                 currentContext = currentContext?.superclassMirror
             }
             // Make sure we aren't adding in the CCXMirror or StORM mirrors:
-            switch currentContext?.subjectType {
-            case is CCXMirror.Type?, is StORM.Type?:
-                break
-            default:
-                if currentContext.isNotNil {
-                    mirrors.append(currentContext!)
-                }
+            if currentContext.isNotNil {
+                mirrors.append(currentContext!)
             }
         }
         return mirrors
