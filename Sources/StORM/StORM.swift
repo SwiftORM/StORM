@@ -36,7 +36,7 @@ open class StORM : CCXMirror {
         var c = [(String, Any)]()
         var count = 0
         // If the StORM primary key is nil, we should assume the first will be the primary key.
-        for child in self.allChildren(primaryKey: self.primaryKey()) {
+        for child in self.allChildren(primaryKey: self.primaryKeyLabel()) {
             guard let key = child.label else {
                 continue
             }
@@ -56,7 +56,7 @@ open class StORM : CCXMirror {
     open func asData(_ offset : Int = 0) -> [(String, Any)] {
         var c = [(String, Any)]()
         var count = 0
-        for case let (label?, value) in self.allChildren(primaryKey: self.primaryKey()) {
+        for case let (label?, value) in self.allChildren(primaryKey: self.primaryKeyLabel()) {
             if count >= offset && !label.hasPrefix("internal_") && !label.hasPrefix("_") {
                 if value is [String:Any] {
                     c.append((label, modifyValue(try! (value as! [String:Any]).jsonEncodedString(), forKey: label)))
@@ -76,7 +76,7 @@ open class StORM : CCXMirror {
     open func asDataDict(_ offset : Int = 0) -> [String: Any] {
         var c = [String: Any]()
         var count = 0
-        for case let (label?, value) in self.allChildren(primaryKey: self.primaryKey()) {
+        for case let (label?, value) in self.allChildren(primaryKey: self.primaryKeyLabel()) {
             if count >= offset && !label.hasPrefix("internal_") && !label.hasPrefix("_") {
                 if value is [String:Any] {
                     c[label] = modifyValue(try! (value as! [String:Any]).jsonEncodedString(), forKey: label)
