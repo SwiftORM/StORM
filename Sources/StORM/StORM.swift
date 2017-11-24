@@ -34,19 +34,16 @@ open class StORM : CCXMirror {
     public func cols(_ offset : Int = 0) -> [(String, Any)] {
         
         var c = [(String, Any)]()
-        var children = self.allChildren()
+        var count = 0
         // If the StORM primary key is nil, we should assume the first will be the primary key.
-        if StORM.primaryKeyLabel.isNil && offset == 1 {
-            children.remove(at: children.startIndex)
-        } else if offset == 1 && StORM.primaryKeyLabel.isNotNil {
-            
-        }
-        for child in children {
-            
-            if child.label.isNotNil && !child.label!.hasPrefix("internal_") && !child.label!.hasPrefix("_") {
+        for child in self.allChildren(primaryKey: self.primaryKey()) {
+            guard let key = child.label else {
+                continue
+            }
+            if !key.hasPrefix("internal_") && !key.hasPrefix("_") {
                 c.append((child.label!, type(of:child.value)))
             }
-            
+            count += 1
         }
         
         return c
@@ -59,7 +56,7 @@ open class StORM : CCXMirror {
     open func asData(_ offset : Int = 0) -> [(String, Any)] {
         var c = [(String, Any)]()
         var count = 0
-        for case let (label?, value) in self.allChildren() {
+        for case let (label?, value) in self.allChildren(primaryKey: self.primaryKey()) {
             if count >= offset && !label.hasPrefix("internal_") && !label.hasPrefix("_") {
                 if value is [String:Any] {
                     c.append((label, modifyValue(try! (value as! [String:Any]).jsonEncodedString(), forKey: label)))
@@ -79,7 +76,7 @@ open class StORM : CCXMirror {
     open func asDataDict(_ offset : Int = 0) -> [String: Any] {
         var c = [String: Any]()
         var count = 0
-        for case let (label?, value) in self.allChildren() {
+        for case let (label?, value) in self.allChildren(primaryKey: self.primaryKey()) {
             if count >= offset && !label.hasPrefix("internal_") && !label.hasPrefix("_") {
                 if value is [String:Any] {
                     c[label] = modifyValue(try! (value as! [String:Any]).jsonEncodedString(), forKey: label)

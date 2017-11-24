@@ -82,7 +82,7 @@ extension Bool {
 }
 //MARK: - Mirror Array:
 extension Array where Iterator.Element == Mirror {
-    func allChildren(includingNilValues: Bool=false) -> [Mirror.Child] {
+    func allChildren(includingNilValues: Bool = false, primaryKey: String? = nil) -> [Mirror.Child] {
         var allChild : [Mirror.Child] = []
         for mirror in self {
             mirror.children.forEach({ (child) in
@@ -99,9 +99,9 @@ extension Array where Iterator.Element == Mirror {
             })
         }
         // Lets make sure if the primaryKey is set, it is the first object:
-        if let keyLabel = StORM.primaryKeyLabel, allChild.first?.label != keyLabel {
+        if let keyLabel = primaryKey, allChild.first?.label != keyLabel {
             if let index = allChild.index(where: { (child) -> Bool in
-                return child.label.isNotNil && child.label == StORM.primaryKeyLabel!
+                return child.label == keyLabel
             }) {
                 allChild.remove(label: keyLabel)
                 let idChild = allChild[index]
