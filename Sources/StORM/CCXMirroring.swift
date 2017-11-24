@@ -20,7 +20,7 @@ public protocol CCXMirroring {
 
 open class CCXMirror: CCXMirroring {
     // The superclass count will include CCXMirror, StORM, & PostgresStORM by the time we get to the subclasses we need to process.
-    private var superclassCount = 1
+    private var superclassCount = 0
     public func didInitializeSuperclass() {
         self.superclassCount += 1
     }
@@ -30,13 +30,12 @@ open class CCXMirror: CCXMirroring {
         let mir = Mirror(reflecting: self)
         mirrors.append(mir)
         var currentContext : Mirror?
-        for _ in 1...self.superclassCount {
+        for _ in 0...self.superclassCount {
             if currentContext.isNil {
                 currentContext = mir.superclassMirror
             } else {
                 currentContext = currentContext?.superclassMirror
             }
-            
             if currentContext.isNotNil {
                 // we only want to bring in the variables from the superclasses that are beyond PostgresStORM:
                 mirrors.append(currentContext!)
