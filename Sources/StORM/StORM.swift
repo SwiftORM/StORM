@@ -31,18 +31,20 @@ open class StORM : CCXMirror {
     public static var primaryKeyLabel : String = "id"
     
     /// Provides structure introspection to client methods.
-    public func cols(_ offset: Int = 0) -> [(String, Any)] {
+    public func cols(_ includePrimaryKey : Bool = false) -> [(String, Any)] {
         
         var c = [(String, Any)]()
-        var count = 0
-        
-        for child in self.allChildren() {
+        var children = self.allChildren()
+        if !includePrimaryKey {
+            children.removeValue(forKey: StORM.primaryKeyLabel)
+        }
+        for child in children {
             
-            if count >= offset && !child.key.hasPrefix("internal_") && !child.key.hasPrefix("_") {
+            if !child.key.hasPrefix("internal_") && !child.key.hasPrefix("_") {
                 c.append((child.key, type(of:child.value)))
                 
             }
-            count += 1
+            
         }
         
         return c
