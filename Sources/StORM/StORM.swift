@@ -39,13 +39,12 @@ open class StORM : CCXMirror {
         if StORM.primaryKeyLabel.isNil && offset == 1 {
             children.remove(at: children.startIndex)
         } else if offset == 1 && StORM.primaryKeyLabel.isNotNil {
-            children.removeValue(forKey: StORM.primaryKeyLabel!)
+            
         }
         for child in children {
             
-            if !child.key.hasPrefix("internal_") && !child.key.hasPrefix("_") {
-                c.append((child.key, type(of:child.value)))
-                
+            if child.label.isNotNil && !child.label!.hasPrefix("internal_") && !child.label!.hasPrefix("_") {
+                c.append((child.label!, type(of:child.value)))
             }
             
         }
@@ -64,16 +63,16 @@ open class StORM : CCXMirror {
         if StORM.primaryKeyLabel.isNil && offset == 1 {
             children.remove(at: children.startIndex)
         } else if offset == 1 && StORM.primaryKeyLabel.isNotNil {
-            children.removeValue(forKey: StORM.primaryKeyLabel!)
+            children.remove(label: StORM.primaryKeyLabel!)
         }
         for child in children {
-            if !child.key.hasPrefix("internal_") && !child.key.hasPrefix("_") {
+            if !child.label!.hasPrefix("internal_") && !child.label!.hasPrefix("_") {
                 if child.value is [String:Any] {
-                    c.append((child.key, modifyValue(try! (child.value as! [String:Any]).jsonEncodedString(), forKey: child.key)))
+                    c.append((child.label!, modifyValue(try! (child.value as! [String:Any]).jsonEncodedString(), forKey: child.label!)))
                 } else if child.value is [String] {
-                    c.append((child.key, modifyValue((child.value as! [String]).joined(separator: ","), forKey: child.key)))
+                    c.append((child.label!, modifyValue((child.value as! [String]).joined(separator: ","), forKey: child.label!)))
                 } else {
-                    c.append((child.key, modifyValue(child.value, forKey: child.key)))
+                    c.append((child.label!, modifyValue(child.value, forKey: child.label!)))
                 }
             }
         }
@@ -89,16 +88,16 @@ open class StORM : CCXMirror {
         if StORM.primaryKeyLabel.isNil && offset == 1 {
             children.remove(at: children.startIndex)
         } else if offset == 1 && StORM.primaryKeyLabel.isNotNil {
-            children.removeValue(forKey: StORM.primaryKeyLabel!)
+            children.remove(label: StORM.primaryKeyLabel!)
         }
         for child in children {
-            if !child.key.hasPrefix("internal_") && !child.key.hasPrefix("_") {
+            if !child.label!.hasPrefix("internal_") && !child.label!.hasPrefix("_") {
                 if child.value is [String:Any] {
-                    c[child.key] = modifyValue(try! (child.value as! [String:Any]).jsonEncodedString(), forKey: child.key)
+                    c[child.label!] = modifyValue(try! (child.value as! [String:Any]).jsonEncodedString(), forKey: child.label!)
                 } else if child.value is [String] {
-                    c[child.key] = modifyValue((child.value as! [String]).joined(separator: ","), forKey: child.key)
+                    c[child.label!] = modifyValue((child.value as! [String]).joined(separator: ","), forKey: child.label!)
                 } else {
-                    c[child.key] = modifyValue(child.value, forKey: child.key)
+                    c[child.label!] = modifyValue(child.value, forKey: child.label!)
                 }
             }
         }
@@ -112,12 +111,12 @@ open class StORM : CCXMirror {
         if primaryKey.isNotNil {
             for case let (label, value) in self.allChildren() {
                 if label == primaryKey {
-                    return (label, modifyValue(value, forKey: label))
+                    return (label!, modifyValue(value, forKey: label!))
                 }
             }
         } else {
             for case let (label, value) in self.allChildren() {
-                return (label, modifyValue(value, forKey: label))
+                return (label!, modifyValue(value, forKey: label!))
             }
         }
         return ("id", "unknown")

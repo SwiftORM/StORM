@@ -15,7 +15,7 @@
 
 public protocol CCXMirroring {
     func didInitializeSuperclass()
-    func allChildren(includingNilValues : Bool) -> [String:Any]
+    func allChildren(includingNilValues : Bool) -> [Mirror.Child]
 }
 
 open class CCXMirror: CCXMirroring {
@@ -45,7 +45,7 @@ open class CCXMirror: CCXMirroring {
         return mirrors
     }
     /// This returns all the children, even all the superclass mirrored children.  Use allChildren().asData() to return an array of key/values.
-    public func allChildren(includingNilValues : Bool = false) -> [String:Any] {
+    public func allChildren(includingNilValues : Bool = false) -> [Mirror.Child] {
         // Remove out the superclass count which is private:
         let children = self.superclassMirrors().allChildren(includingNilValues: includingNilValues)
         return children
