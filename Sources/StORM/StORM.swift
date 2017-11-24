@@ -28,15 +28,18 @@ open class StORM : CCXMirror {
     public override init() {}
     
     /// primary key label (not assuming the first child is the id).
-    public static var primaryKeyLabel : String = "id"
+    public static var primaryKeyLabel : String? = nil
     
     /// Provides structure introspection to client methods.
-    public func cols(_ includePrimaryKey : Bool = false) -> [(String, Any)] {
+    public func cols(_ offset : Int = 0) -> [(String, Any)] {
         
         var c = [(String, Any)]()
         var children = self.allChildren()
-        if !includePrimaryKey {
-            children.removeValue(forKey: StORM.primaryKeyLabel)
+        // If the StORM primary key is nil, we should assume the first will be the primary key.
+        if StORM.primaryKeyLabel.isNil && offset == 1 {
+            children.remove(at: children.startIndex)
+        } else if offset == 1 && StORM.primaryKeyLabel.isNotNil {
+            children.removeValue(forKey: StORM.primaryKeyLabel!)
         }
         for child in children {
             
@@ -54,11 +57,14 @@ open class StORM : CCXMirror {
     
     /// Returns a [(String,Any)] object representation of the current object.
     /// If any object property begins with an underscore, or with "internal_" it is omitted from the response.
-    open func asData(_ includePrimaryKey : Bool = false) -> [(String, Any)] {
+    open func asData(_ offset : Int = 0) -> [(String, Any)] {
         var c = [(String, Any)]()
         var children = self.allChildren()
-        if !includePrimaryKey {
-            children.removeValue(forKey: StORM.primaryKeyLabel)
+        // If the StORM primary key is nil, we should assume the first will be the primary key.
+        if StORM.primaryKeyLabel.isNil && offset == 1 {
+            children.remove(at: children.startIndex)
+        } else if offset == 1 && StORM.primaryKeyLabel.isNotNil {
+            children.removeValue(forKey: StORM.primaryKeyLabel!)
         }
         for child in children {
             if !child.key.hasPrefix("internal_") && !child.key.hasPrefix("_") {
@@ -76,11 +82,14 @@ open class StORM : CCXMirror {
     
     /// Returns a [String:Any] object representation of the current object.
     /// If any object property begins with an underscore, or with "internal_" it is omitted from the response.
-    open func asDataDict(_ includePrimaryKey : Bool = false) -> [String: Any] {
+    open func asDataDict(_ offset : Int = 0) -> [String: Any] {
         var c = [String: Any]()
         var children = self.allChildren()
-        if !includePrimaryKey {
-            children.removeValue(forKey: StORM.primaryKeyLabel)
+        // If the StORM primary key is nil, we should assume the first will be the primary key.
+        if StORM.primaryKeyLabel.isNil && offset == 1 {
+            children.remove(at: children.startIndex)
+        } else if offset == 1 && StORM.primaryKeyLabel.isNotNil {
+            children.removeValue(forKey: StORM.primaryKeyLabel!)
         }
         for child in children {
             if !child.key.hasPrefix("internal_") && !child.key.hasPrefix("_") {
@@ -99,8 +108,15 @@ open class StORM : CCXMirror {
     /// Returns a tuple of name & value of the object's key
     /// The key is determined to be it's first property, which is assumed to be the object key.
     public func firstAsKey() -> (String, Any) {
-        for case let (label, value) in self.allChildren() {
-            if label == StORM.primaryKeyLabel {
+        let primaryKey = StORM.primaryKeyLabel
+        if primaryKey.isNotNil {
+            for case let (label, value) in self.allChildren() {
+                if label == primaryKey {
+                    return (label, modifyValue(value, forKey: label))
+                }
+            }
+        } else {
+            for case let (label, value) in self.allChildren() {
                 return (label, modifyValue(value, forKey: label))
             }
         }
