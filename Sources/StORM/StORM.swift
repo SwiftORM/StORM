@@ -94,7 +94,7 @@ open class StORM : CCXMirror {
     /// Returns a tuple of name & value of the object's key
     /// The key is determined to be it's first property, which is assumed to be the object key.
     public func firstAsKey() -> (String, Any) {
-        for case let (label, value) in self.allChildren() {
+        for case let (label, value) in self.allChildren(includingNilValues: true, primaryKey: self.primaryKeyLabel()) {
             return (label!, modifyValue(value, forKey: label!))
         }
         return ("id", "unknown")
