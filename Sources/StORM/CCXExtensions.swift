@@ -98,6 +98,16 @@ extension Array where Iterator.Element == Mirror {
                 }
             })
         }
+        // Lets make sure if the primaryKey is set, it is the first object:
+        if let keyLabel = StORM.primaryKeyLabel, allChild.first?.label != keyLabel {
+            if let index = allChild.index(where: { (child) -> Bool in
+                return child.label.isNotNil && child.label == StORM.primaryKeyLabel!
+            }) {
+                allChild.remove(label: keyLabel)
+                let idChild = allChild[index]
+                allChild.insert(idChild, at: 0)
+            }
+        }
         return allChild
     }
 }
