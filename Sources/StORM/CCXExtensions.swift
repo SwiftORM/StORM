@@ -103,31 +103,15 @@ extension Array where Iterator.Element == Mirror {
             if let index = allChild.index(where: { (child) -> Bool in
                 return child.label == keyLabel
             }) {
-                allChild.remove(label: keyLabel)
-                let idChild = allChild[index]
-                allChild.insert(idChild, at: 0)
+                allChild.move(at: index, to: 0)
             }
         }
         return allChild
     }
 }
 
-extension Array where Iterator.Element == Mirror.Child {
-    mutating func remove(label : String) {
-        if let index = self.index(where: { (child) -> Bool in
-            return child.label.isNotNil && child.label == StORM.primaryKeyLabel
-        }) {
-            self.remove(at: index)
-        }
-    }
-}
-
-extension Dictionary where Key == String, Value == Any {
-    public func asData() -> [(String, Any)] {
-        var data : [(String,Any)] = []
-        for row in self {
-            data.append(row)
-        }
-        return data
+extension Array {
+    mutating func move(at oldIndex: Int, to newIndex: Int) {
+        self.insert(self.remove(at: oldIndex), at: newIndex)
     }
 }
