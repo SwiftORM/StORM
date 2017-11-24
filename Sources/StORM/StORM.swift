@@ -15,27 +15,27 @@ public var StORMdebug = false
 /// Provides base functionality and rules.
 open class StORM : CCXMirror {
     
-	/// Results container of type StORMResultSet.
-	open var results		= StORMResultSet()
-
-	/// connection error status of type StORMError.
-	open var error			= StORMError()
-
-	/// Contain last error message as string.
-	open var errorMsg		= ""
-
-	/// Base empty init function.
+    /// Results container of type StORMResultSet.
+    open var results        = StORMResultSet()
+    
+    /// connection error status of type StORMError.
+    open var error            = StORMError()
+    
+    /// Contain last error message as string.
+    open var errorMsg        = ""
+    
+    /// Base empty init function.
     public override init() {}
     
     /// primary key label (not assuming the first child is the id).
     public static var primaryKeyLabel : String = "id"
-
-	/// Provides structure introspection to client methods.
-	public func cols(_ offset: Int = 0) -> [(String, Any)] {
-        
-		var c = [(String, Any)]()
-		var count = 0
     
+    /// Provides structure introspection to client methods.
+    public func cols(_ offset: Int = 0) -> [(String, Any)] {
+        
+        var c = [(String, Any)]()
+        var count = 0
+        
         for child in self.allChildren() {
             
             if count >= offset && !child.key.hasPrefix("internal_") && !child.key.hasPrefix("_") {
@@ -44,66 +44,70 @@ open class StORM : CCXMirror {
             }
             count += 1
         }
-
-		return c
-	}
-	
-	open func modifyValue(_ v: Any, forKey k: String) -> Any { return v }
-	
-	/// Returns a [(String,Any)] object representation of the current object.
-	/// If any object property begins with an underscore, or with "internal_" it is omitted from the response.
-	open func asData(_ offset: Int = 0) -> [(String, Any)] {
-		var c = [(String, Any)]()
-		var count = 0
-		for child in self.allChildren() {
-			if count >= offset && !child.key.hasPrefix("internal_") && !child.key.hasPrefix("_") {
-				if child.value is [String:Any] {
-					c.append((child.key, modifyValue(try! (child.value as! [String:Any]).jsonEncodedString(), forKey: child.key)))
-				} else if child.value is [String] {
-					c.append((child.key, modifyValue((child.value as! [String]).joined(separator: ","), forKey: child.key)))
-				} else {
-					c.append((child.key, modifyValue(child.value, forKey: child.key)))
-				}
-			}
-			count += 1
-		}
-		return c
-	}
-
-	/// Returns a [String:Any] object representation of the current object.
-	/// If any object property begins with an underscore, or with "internal_" it is omitted from the response.
-	open func asDataDict(_ offset: Int = 0) -> [String: Any] {
-		var c = [String: Any]()
-		var count = 0
-		for child in self.allChildren() {
-			if count >= offset && !child.key.hasPrefix("internal_") && !child.key.hasPrefix("_") {
-				if child.value is [String:Any] {
-					c[child.key] = modifyValue(try! (child.value as! [String:Any]).jsonEncodedString(), forKey: child.key)
-				} else if child.value is [String] {
-					c[child.key] = modifyValue((child.value as! [String]).joined(separator: ","), forKey: child.key)
-				} else {
-					c[child.key] = modifyValue(child.value, forKey: child.key)
-				}
-			}
-			count += 1
-		}
-		return c
-	}
-
-	/// Returns a tuple of name & value of the object's key
-	/// The key is determined to be it's first property, which is assumed to be the object key.
-	public func firstAsKey() -> (String, Any) {
-		for case let (label, value) in self.allChildren() {
+        
+        return c
+    }
+    
+    open func modifyValue(_ v: Any, forKey k: String) -> Any { return v }
+    
+    /// Returns a [(String,Any)] object representation of the current object.
+    /// If any object property begins with an underscore, or with "internal_" it is omitted from the response.
+    open func asData(_ includePrimaryKey : Bool = false) -> [(String, Any)] {
+        var c = [(String, Any)]()
+        var children = self.allChildren()
+        if !includePrimaryKey {
+            children.removeValue(forKey: StORM.primaryKeyLabel)
+        }
+        for child in children {
+            if !child.key.hasPrefix("internal_") && !child.key.hasPrefix("_") {
+                if child.value is [String:Any] {
+                    c.append((child.key, modifyValue(try! (child.value as! [String:Any]).jsonEncodedString(), forKey: child.key)))
+                } else if child.value is [String] {
+                    c.append((child.key, modifyValue((child.value as! [String]).joined(separator: ","), forKey: child.key)))
+                } else {
+                    c.append((child.key, modifyValue(child.value, forKey: child.key)))
+                }
+            }
+        }
+        return c
+    }
+    
+    /// Returns a [String:Any] object representation of the current object.
+    /// If any object property begins with an underscore, or with "internal_" it is omitted from the response.
+    open func asDataDict(_ includePrimaryKey : Bool = false) -> [String: Any] {
+        var c = [String: Any]()
+        var children = self.allChildren()
+        if !includePrimaryKey {
+            children.removeValue(forKey: StORM.primaryKeyLabel)
+        }
+        for child in children {
+            if !child.key.hasPrefix("internal_") && !child.key.hasPrefix("_") {
+                if child.value is [String:Any] {
+                    c[child.key] = modifyValue(try! (child.value as! [String:Any]).jsonEncodedString(), forKey: child.key)
+                } else if child.value is [String] {
+                    c[child.key] = modifyValue((child.value as! [String]).joined(separator: ","), forKey: child.key)
+                } else {
+                    c[child.key] = modifyValue(child.value, forKey: child.key)
+                }
+            }
+        }
+        return c
+    }
+    
+    /// Returns a tuple of name & value of the object's key
+    /// The key is determined to be it's first property, which is assumed to be the object key.
+    public func firstAsKey() -> (String, Any) {
+        for case let (label, value) in self.allChildren() {
             if label == StORM.primaryKeyLabel {
                 return (label, modifyValue(value, forKey: label))
             }
-		}
-		return ("id", "unknown")
-	}
-
-	/// Returns a boolean that is true if the first property in the class contains a value.
-	public func keyIsEmpty() -> Bool {
-		let (_, val) = firstAsKey()
+        }
+        return ("id", "unknown")
+    }
+    
+    /// Returns a boolean that is true if the first property in the class contains a value.
+    public func keyIsEmpty() -> Bool {
+        let (_, val) = firstAsKey()
         
         // Grab the type of value:
         let type = type(of: val)
@@ -123,13 +127,12 @@ open class StORM : CCXMirror {
             return false
         }
         
-	}
-
-	/// The create method is designed to be overridden
-	/// If not set in the chile class it will return an error of the enum value .notImplemented
-	open func create() throws {
-		throw StORMError.notImplemented
-	}
-	
+    }
+    
+    /// The create method is designed to be overridden
+    /// If not set in the chile class it will return an error of the enum value .notImplemented
+    open func create() throws {
+        throw StORMError.notImplemented
+    }
+    
 }
-

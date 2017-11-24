@@ -20,7 +20,7 @@ public protocol CCXMirroring {
 
 open class CCXMirror: CCXMirroring {
     // The superclass count will include CCXMirror, StORM, & PostgresStORM by the time we get to the subclasses we need to process.
-    private var superclassCount = 3
+    private var superclassCount = 0
     public func didInitializeSuperclass() {
         self.superclassCount += 1
     }
@@ -51,8 +51,7 @@ open class CCXMirror: CCXMirroring {
     /// This returns all the children, even all the superclass mirrored children.  Use allChildren().asData() to return an array of key/values.
     public func allChildren(includingNilValues : Bool = false) -> [String:Any] {
         // Remove out the superclass count which is private:
-        var children = self.superclassMirrors().allChildren(includingNilValues: includingNilValues)
+        let children = self.superclassMirrors().allChildren(includingNilValues: includingNilValues)
         return children
     }
 }
-
