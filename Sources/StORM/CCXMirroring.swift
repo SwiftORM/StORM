@@ -16,7 +16,7 @@
 public protocol CCXMirroring {
     func didInitializeSuperclass()
     func allChildren(includingNilValues : Bool, primaryKey: String?) -> [Mirror.Child]
-    func primaryKey() -> String?
+    func primaryKeyLabel() -> String?
 }
 
 open class CCXMirror: CCXMirroring {
@@ -25,7 +25,7 @@ open class CCXMirror: CCXMirroring {
     public func didInitializeSuperclass() {
         self.superclassCount += 1
     }
-    open func primaryKey() -> String? {
+    open func primaryKeyLabel() -> String? {
         return nil
     }
     /// This function goes through all the superclass mirrors.  This is dependent on the CCXMirroring protocol.
