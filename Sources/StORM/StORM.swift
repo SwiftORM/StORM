@@ -49,7 +49,27 @@ open class StORM : CCXMirror {
         return c
     }
     
-    open func modifyValue(_ v: Any, forKey k: String) -> Any { return v }
+    open func modifyValue(_ v: Any, forKey k: String) -> Any {
+        
+        guard String(describing: v) != "nil" else { return v }
+        switch type(of: v) {
+        case is Int?.Type:
+            return v as! Int
+        case is String?.Type:
+            return v as! String
+        case is Double?.Type:
+            return v as! Double
+        case is Float?.Type:
+            return v as! Float
+        case is [String]?.Type:
+            return v as! [String]
+        case is [String:Any]?.Type:
+            return try! (v as! [String:Any]).jsonEncodedString()
+        default:
+            return v
+        }
+        
+    }
     
     /// Returns a [(String,Any)] object representation of the current object.
     /// If any object property begins with an underscore, or with "internal_" it is omitted from the response.
@@ -58,13 +78,7 @@ open class StORM : CCXMirror {
         var count = 0
         for case let (label?, value) in self.allChildren(primaryKey: self.primaryKeyLabel()) {
             if count >= offset && !label.hasPrefix("internal_") && !label.hasPrefix("_") {
-                if value is [String:Any] {
-                    c.append((label, modifyValue(try! (value as! [String:Any]).jsonEncodedString(), forKey: label)))
-                } else if value is [String] {
-                    c.append((label, modifyValue((value as! [String]).joined(separator: ","), forKey: label)))
-                } else {
-                    c.append((label, modifyValue(value, forKey: label)))
-                }
+                c.append((label, modifyValue(value, forKey: label)))
             }
             count += 1
         }
@@ -78,13 +92,7 @@ open class StORM : CCXMirror {
         var count = 0
         for case let (label?, value) in self.allChildren(primaryKey: self.primaryKeyLabel()) {
             if count >= offset && !label.hasPrefix("internal_") && !label.hasPrefix("_") {
-                if value is [String:Any] {
-                    c[label] = modifyValue(try! (value as! [String:Any]).jsonEncodedString(), forKey: label)
-                } else if value is [String] {
-                    c[label] = modifyValue((value as! [String]).joined(separator: ","), forKey: label)
-                } else {
-                    c[label] = modifyValue(value, forKey: label)
-                }
+                c[label] = modifyValue(value, forKey: label)
             }
             count += 1
         }

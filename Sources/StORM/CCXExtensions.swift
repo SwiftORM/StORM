@@ -90,6 +90,8 @@ extension Array where Iterator.Element == Mirror {
                 if !includingNilValues {
                     if child.label.isNotNil, String(describing: child.value) != "nil" {
                         allChild.append(child)
+                    } else if child.label.isNotNil, child.label == "created" || child.label == "modified" {
+                        allChild.append(child)
                     }
                 } else {
                     if child.label.isNotNil {
