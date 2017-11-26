@@ -98,12 +98,18 @@ extension Array where Iterator.Element == Mirror {
                     }
                 } else {
                     if child.label.isNotNil {
-                        allChild.append(child)
+                        if child.label! == "created" || child.label! == "modified" {
+                            var mutableChild = child
+                            mutableChild.value = Int(Date().timeIntervalSince1970)
+                            allChild.append(mutableChild)
+                        } else {
+                            allChild.append(child)
+                        }
                     }
                 }
             })
         }
-        // Lets make sure if the primaryKey is set, it is the first object:
+        // Lets make sure if the primaryKey is set, it is the first object returned for asData/asDataDic functions:
         if let keyLabel = primaryKey, allChild.first?.label != keyLabel {
             if let index = allChild.index(where: { (child) -> Bool in
                 return child.label == keyLabel
@@ -116,6 +122,7 @@ extension Array where Iterator.Element == Mirror {
 }
 
 extension Array {
+    /// This removes & inserts the object at the old index, to the new specified index.
     mutating func move(at oldIndex: Int, to newIndex: Int) {
         self.insert(self.remove(at: oldIndex), at: newIndex)
     }
