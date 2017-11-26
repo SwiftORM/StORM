@@ -90,8 +90,11 @@ extension Array where Iterator.Element == Mirror {
                 if !includingNilValues {
                     if child.label.isNotNil, String(describing: child.value) != "nil" {
                         allChild.append(child)
+                        // Automatic created & modified fields:
                     } else if child.label.isNotNil, child.label == "created" || child.label == "modified" {
-                        allChild.append(child)
+                        var mutableChild = child
+                        mutableChild.value = Int(Date().timeIntervalSince1970)
+                        allChild.append(mutableChild)
                     }
                 } else {
                     if child.label.isNotNil {
