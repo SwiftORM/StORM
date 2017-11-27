@@ -89,7 +89,14 @@ extension Array where Iterator.Element == Mirror {
                 // Make sure our child has a label & the string describing the value is not nil. (Making optionals supported)
                 if !includingNilValues {
                     if child.label.isNotNil, String(describing: child.value) != "nil" {
-                        allChild.append(child)
+                        // If we default a created/modified integer to zero we need to overwrite it here:
+                        if child.label! == "created" || child.label! == "modified" {
+                            var mutableChild = child
+                            mutableChild.value = Int(Date().timeIntervalSince1970)
+                            allChild.append(mutableChild)
+                        } else {
+                            allChild.append(child)
+                        }
                         // Automatic created & modified fields:
                     } else if child.label.isNotNil, child.label == "created" || child.label == "modified" {
                         var mutableChild = child
