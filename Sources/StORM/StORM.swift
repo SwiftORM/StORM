@@ -36,7 +36,7 @@ open class StORM : CCXMirror {
         var c = [(String, Any)]()
         var count = 0
         // If the StORM primary key is nil, we should assume the first will be the primary key.
-        for child in self.allChildren(primaryKey: self.primaryKeyLabel()) {
+        for child in self.allChildren(includingNilValues: true, primaryKey: self.primaryKeyLabel()) {
             guard let key = child.label else {
                 continue
             }
