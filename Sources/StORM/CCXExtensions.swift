@@ -5,6 +5,7 @@
 //  Created by Ryan Coyne on 11/22/17.
 //
 
+import SwiftMoment
 import Foundation
 
 //MARK: - Optionals
@@ -92,7 +93,7 @@ extension Array where Iterator.Element == Mirror {
                         // If we default a created/modified integer to zero we need to overwrite it here:
                         if child.label! == "created" || child.label! == "modified" {
                             var mutableChild = child
-                            mutableChild.value = Int(Date().timeIntervalSince1970)
+                            mutableChild.value = Int(utc().epoch())
                             allChild.append(mutableChild)
                         } else {
                             allChild.append(child)
@@ -100,14 +101,14 @@ extension Array where Iterator.Element == Mirror {
                         // Automatic created & modified fields:
                     } else if child.label.isNotNil, child.label == "created" || child.label == "modified" {
                         var mutableChild = child
-                        mutableChild.value = Int(Date().timeIntervalSince1970)
+                        mutableChild.value = Int(utc().epoch())
                         allChild.append(mutableChild)
                     }
                 } else {
                     if child.label.isNotNil {
                         if child.label! == "created" || child.label! == "modified" {
                             var mutableChild = child
-                            mutableChild.value = Int(Date().timeIntervalSince1970)
+                            mutableChild.value = Int(utc().epoch())
                             allChild.append(mutableChild)
                         } else {
                             allChild.append(child)
