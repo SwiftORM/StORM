@@ -117,7 +117,7 @@ extension Array where Iterator.Element == Mirror {
                 }
             })
         }
-        // Lets make sure if the primaryKey is set, it is the first object returned for asData/asDataDic functions:
+        // Lets make sure if the primaryKey is set, it is the first object returned for asData/asDataDic & firstAsKey functions:
         if let keyLabel = primaryKey, allChild.first?.label != keyLabel {
             if let index = allChild.index(where: { (child) -> Bool in
                 return child.label == keyLabel

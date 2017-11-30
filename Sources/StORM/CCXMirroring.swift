@@ -25,6 +25,10 @@ open class CCXMirror: CCXMirroring {
     public func didInitializeSuperclass() {
         self.superclassCount += 1
     }
+    
+    /// This is intended to make it easier to specify your primary key, rather than having the id specifically in this model.
+    ///
+    /// - Returns: This returns the label for the primary key for this model.
     open func primaryKeyLabel() -> String? {
         return nil
     }
