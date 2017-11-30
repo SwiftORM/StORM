@@ -42,7 +42,7 @@ extension Optional {
     }
     /// This returns the optionally wrapped object as an array of dictionaries...value.
     var arrayDicValue : [[String:Any]]! {
-        return self as? [[String:Any]] ?? [[:]]
+        return self as? [[String:Any]] ?? []
     }
     /// This returns the optionally wrapped object as an integer value.
     var intValue : Int? {
