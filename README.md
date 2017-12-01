@@ -116,4 +116,9 @@ This provides the capability for PostgresStORM and other database supported StOR
 
 StORMMirroring also gives you the flexibility to place your primary key in a superclass model.  All you would need to do is override the primaryKeyLabel function that StORMMirroring offers.  This ensures that when we create the array of children from all the mirrors, it places the primary key as the first child in the array.
 
+### Supporting Optionals in other database-StORM Modules:
+- Make sure to keep track of going from an optional Non-nil value to nil, to update NULL/DEFAULT or NULL.  See TestUser2 model. 
+
+### Other -> Automatic Auditing For other database-StORM Modules:
+- StORMMirroring also supports automatic created & modified values to come back if they exist in the model.  They are intended to be used as integers to store as epoch timestamps.  Make sure to skip over modified or created depending on if you are creating a new record or modifying a record.
 
