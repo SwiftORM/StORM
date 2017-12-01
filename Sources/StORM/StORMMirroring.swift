@@ -1,16 +1,8 @@
 //
 //  StORMMirroring.swift
-//
-//  Created by Ryan Coyne on 11/22/17.
-//  Copyright © 2017 ClearCodeX, Inc. All rights reserved.
-//
-
-//
 //  StORMMirror.swift
 //
-//
-//  Created by Ryan Coyne on 11/17/17.
-//  Copyright © 2017 ClearCodeX, Inc. All rights reserved.
+//  Created by Ryan Coyne on 11/22/17.
 //
 
 public protocol StORMMirroring {
