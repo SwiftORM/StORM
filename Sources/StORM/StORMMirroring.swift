@@ -1,25 +1,25 @@
 //
-//  CCXMirroring.swift
+//  StORMMirroring.swift
 //
 //  Created by Ryan Coyne on 11/22/17.
 //  Copyright © 2017 ClearCodeX, Inc. All rights reserved.
 //
 
 //
-//  CCXMirror.swift
+//  StORMMirror.swift
 //
 //
 //  Created by Ryan Coyne on 11/17/17.
 //  Copyright © 2017 ClearCodeX, Inc. All rights reserved.
 //
 
-public protocol CCXMirroring {
+public protocol StORMMirroring {
     func didInitializeSuperclass()
     func allChildren(includingNilValues : Bool, primaryKey: String?) -> [Mirror.Child]
     func primaryKeyLabel() -> String?
 }
 
-open class CCXMirror: CCXMirroring {
+open class StORMMirror: StORMMirroring {
     // The superclass count will include CCXMirror, StORM, & PostgresStORM by the time we get to the subclasses we need to process.
     private var superclassCount = 0
     public func didInitializeSuperclass() {

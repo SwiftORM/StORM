@@ -13,7 +13,7 @@ public var StORMdebug = false
 
 /// Base StORM superclass from which all Database-Connector StORM classes inherit.
 /// Provides base functionality and rules.
-open class StORM : CCXMirror {
+open class StORM : StORMMirror {
     
     /// Results container of type StORMResultSet.
     open var results        = StORMResultSet()

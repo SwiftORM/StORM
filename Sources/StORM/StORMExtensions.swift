@@ -1,5 +1,5 @@
 //
-//  CCXExtensions.swift
+//  StORMExtensions.swift
 //  StORM
 //
 //  Created by Ryan Coyne on 11/22/17.
