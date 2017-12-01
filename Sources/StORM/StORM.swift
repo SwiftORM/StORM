@@ -27,9 +27,6 @@ open class StORM : StORMMirror {
     /// Base empty init function.
     public override init() {}
     
-    /// primary key label (not assuming the first child is the id).
-    public static var primaryKeyLabel : String? = nil
-    
     /// Provides structure introspection to client methods.
     public func cols(_ offset : Int = 0) -> [(String, Any)] {
         
