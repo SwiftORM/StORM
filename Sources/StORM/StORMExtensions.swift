@@ -83,6 +83,8 @@ extension Bool {
 }
 //MARK: - Mirror Array:
 extension Array where Iterator.Element == Mirror {
+    /// This function will automatically return the created/modified values IF your model has a variable with that name.  Created/modified are intended to be integer values of UTC time since 1970.
+    /// Createdby/Modifiedby fields are automatically supported at the database level in PostgresStORM.
     func allChildren(includingNilValues: Bool = false, primaryKey: String? = nil) -> [Mirror.Child] {
         var allChild : [Mirror.Child] = []
         for mirror in self {

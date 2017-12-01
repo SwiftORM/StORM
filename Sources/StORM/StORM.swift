@@ -49,6 +49,7 @@ open class StORM : StORMMirror {
         return c
     }
     
+    /// This modifyValue function now supports optional variables and forces the value as the type it is, so that the String(describing) doesn't include the optional string wrapping the actual value.
     open func modifyValue(_ v: Any, forKey k: String) -> Any {
         
         guard String(describing: v) != "nil" else { return v }
