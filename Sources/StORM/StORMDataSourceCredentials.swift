@@ -6,6 +6,10 @@
 //
 //
 
+public enum StORMConnectionMethod: String {
+	case socket, network
+}
+
 /// Storage for current datasource connection properties.
 public struct StORMDataSourceCredentials {
 
@@ -21,13 +25,17 @@ public struct StORMDataSourceCredentials {
 	/// Password for accessing the datasource.
 	public var password:		String		= ""
 
+	/// Set the connection method - network (tcp/ip), or socket/dsn.
+	public var method:			StORMConnectionMethod		= .network
+
 	public init() {}
 
 	/// Initializer to set properties at instantiation.
-	public init(host: String, port: Int = 0, user: String = "", pass: String = "") {
+	public init(host: String, port: Int = 0, user: String = "", pass: String = "", method: StORMConnectionMethod = .network) {
 		self.host = host
 		self.port = port
 		self.username = user
 		self.password = pass
+		self.method = method
 	}
 }
