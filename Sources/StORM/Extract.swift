@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftMoment
+import SwiftString
 
 extension StORM {
 
