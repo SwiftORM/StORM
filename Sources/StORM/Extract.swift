@@ -43,13 +43,14 @@ extension StORM {
 		// Double
 		// =======================================================================================
 		public static func double(_ data: [String: Any], _ name: String, _ def: Double? = Double()) -> Double? {
-			if let d = data[name] as? Float {
+			if let d = data[name] as? Double {
+				return d
+			} else if let d = data[name] as? Float {
 				return Double(d)
 
-			} else if let d = data[name] as? Double {
-				return d
 			}
-			return Double((data[name] as? Float) ?? Float(def ?? 0.00))
+			return Double((data[name] as? String) ?? "\(def ?? 0.00)")
+//			return Double((data[name] as? Float) ?? Float(def ?? 0.00))
 		}
 
 		// =======================================================================================
