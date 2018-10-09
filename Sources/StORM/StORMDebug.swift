@@ -13,4 +13,8 @@ public struct StORMDebug {
     /// The global debug state for all classes inheriting from the StORM superclass.
     /// When true, certain methods will generate a debug message under certain conditions.
     public static var active = false
+    
+    /// The location of the log file.
+    /// The default location is relative, "StORMlog.txt"
+    public static var location = "./StORMlog.txt"
 }
