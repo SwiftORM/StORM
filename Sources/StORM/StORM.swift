@@ -7,11 +7,6 @@
 //  April 6, 2017: 1.0.3, add support for storing [String] as comma delimited strings
 
 
-/// Variable defining the global debug state for all classes inheriting from the StORM superclass.
-/// When true, certain methods will generate a debug message under certain conditions.
-public var StORMdebug = false
-
-
 /// Base StORM superclass from which all Database-Connector StORM classes inherit.
 /// Provides base functionality and rules.
 open class StORM {
