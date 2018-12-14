@@ -32,9 +32,10 @@ open class StORMConnect {
 	            host: String,
 	            username: String = "",
 	            password: String = "",
-	            port: Int = 0) {
+	            port: Int = 0,
+				method: StORMConnectionMethod = .network) {
 		self.datasource = ds
-		self.credentials = StORMDataSourceCredentials(host: host, port: port, user: username, pass: password)
+		self.credentials = StORMDataSourceCredentials(host: host, port: port, user: username, pass: password, method: method)
 	}
 }
 
