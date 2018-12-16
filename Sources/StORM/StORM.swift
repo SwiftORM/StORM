@@ -38,7 +38,7 @@ open class StORM : StORMMirror {
                 continue
             }
             if !key.hasPrefix("internal_") && !key.hasPrefix("_") {
-                c.append((child.label!, type(of:child.value)))
+                c.append((child.label!, child.value))
             }
             count += 1
         }
