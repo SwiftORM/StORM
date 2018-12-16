@@ -89,6 +89,7 @@ extension Array where Iterator.Element == Mirror {
         var allChild : [Mirror.Child] = []
         for mirror in self {
             mirror.children.forEach({ (child) in
+                print(child)
                 // Make sure our child has a label & the string describing the value is not nil. (Making optionals supported)
                 if !includingNilValues {
                     if child.label.isNotNil, String(describing: child.value) != "nil" {
