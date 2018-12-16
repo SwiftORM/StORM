@@ -64,7 +64,8 @@ open class StORM : StORMMirror {
         case is [String:Any]?.Type:
             return try! (v as! [String:Any]).jsonEncodedString()
         default:
-            return v
+            // Here we will support new database types by returning what we need conforming to CustomStringConvertable.
+            return String(describing: v)
         }
         
     }
