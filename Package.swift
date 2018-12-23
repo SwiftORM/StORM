@@ -16,7 +16,7 @@ let package = Package(
     targets: [
         .target(
             name: "StORM",
-            dependencies: ["PerfectLib","SwiftMoment", "SwiftString"]
+            dependencies: ["PerfectLib","SwiftMoment", "SwiftString"],
              path: "Sources/StORM"
         ),
     ]
