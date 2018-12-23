@@ -11,7 +11,7 @@ let package = Package(
         .target(
             name: "StORM",
             dependencies: ["PerfectLib","SwiftMoment", "SwiftString"],
-            path: "Sources/StORM"
+            path: "StORM"
         ),
     ]
 )
