@@ -1,12 +1,23 @@
-// Generated automatically by Perfect Assistant Application
-// Date: 2018-03-02 16:12:45 +0000
+// swift-tools-version:4.0
 import PackageDescription
 let package = Package(
-	name: "StORM",
-	targets: [],
-	dependencies: [
-		.Package(url: "https://github.com/PerfectlySoft/PerfectLib.git", majorVersion: 3),
-		.Package(url: "https://github.com/iamjono/SwiftMoment.git", majorVersion: 1),
-		.Package(url: "https://github.com/iamjono/SwiftString.git", majorVersion: 2),
-	]
+    name: "StORM",
+    products: [
+        // Products define the executables and libraries produced by a package, and make them visible to other packages.
+        .library(
+            name: "StORM",
+            targets: ["StORM"]),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/ryancoyne/PerfectLib.git", from: "4.0.0"),
+        .package(url: "https://github.com/ryancoyne/SwiftMoment.git", from: "1.0.0"),
+//        .package(url: "https://github.com/ryancoyne/SwiftString.git", from: "2.0.0"),
+    ],
+    targets: [
+        .target(
+            name: "StORM",
+            dependencies: ["PerfectLib", "SwiftMoment"],
+            path: "Sources/StORM"
+        ),
+    ]
 )
