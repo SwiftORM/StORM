@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftMoment
-import SwiftString
 
 extension StORM {
 
@@ -66,26 +65,19 @@ extension StORM {
 		public static func bytes(_ data: [String: Any], _ name: String, _ def: [UInt8]? = [UInt8]()) -> [UInt8]? {
 			return data[name] as? [UInt8] ?? def
 		}
-
-
-
-
-
-
-
-
+		
 		// =======================================================================================
 		// Array Of Strings
 		// =======================================================================================
 		public static func arrayOfStrings(_ data: [String: Any], _ name: String, _ def: [String]? = [String]()) -> [String]? {
-			return (data[name] as? String ?? "").split(",").map{ $0.trimmed() } // note default ignored right now
+			return (data[name] as? String ?? "").split(separator: ",").map{ $0.trimmingCharacters(in: .whitespacesAndNewlines) } // note default ignored right now
 		}
 
 		// =======================================================================================
 		// Array Of Integers
 		// =======================================================================================
 		public static func arrayOfIntegers(_ data: [String: Any], _ name: String, _ def: [Int]? = [Int]()) -> [Int]? {
-			return (data[name] as? String ?? "").split(",").map{ Int($0.trimmed()) ?? 0 } // note default ignored right now
+			return (data[name] as? String ?? "").split(separator: ",").map{ Int($0.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0 } // note default ignored right now
 		}
 
 		// =======================================================================================

@@ -105,20 +105,20 @@ open class StORM {
 		let (_, val) = firstAsKey()
         
         // Grab the type of value:
-        let type = type(of: val)
+        let theType = type(of: val)
         // Check if we are nil, we would then of course have an empty primary key.
         guard String(describing: val) != "nil" else {
             return true
         }
         
         // For now we will be expecting String & Integer key types:
-        switch type {
+        switch theType {
         case is Int.Type, is Int?.Type:
             return (val as! Int == 0)
         case is String.Type, is String?.Type:
             return (val as! String).isEmpty
         default:
-            print("[StORM] WARNING: [\(#function)] Unexpected \(type) for PRIMARY KEY.")
+            print("[StORM] WARNING: [\(#function)] Unexpected \(theType) for PRIMARY KEY.")
             return false
         }
         
