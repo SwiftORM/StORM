@@ -115,6 +115,12 @@ open class StORM {
         switch theType {
         case is Int.Type, is Int?.Type:
             return (val as! Int == 0)
+        case is Int16.Type, is Int16?.Type:
+            return (val as! Int16 == 0)
+        case is Int32.Type, is Int32?.Type:
+            return (val as! Int32 == 0)
+        case is Int64.Type, is Int64?.Type:
+            return (val as! Int64 == 0)
         case is String.Type, is String?.Type:
             return (val as! String).isEmpty
         default:
